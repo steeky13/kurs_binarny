@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurs Systemu Binarnego - Master Class AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- Marked for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bit-box {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .bit-box:hover {
+            transform: translateY(-2px);
+        }
+
+        .bit-on {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+            border-color: #4ade80;
+        }
+
+        .bit-off {
+            background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+            border-color: #475569;
+            color: #94a3b8;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+
+        .ai-gradient-text {
+            background: linear-gradient(to right, #4ade80, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ai-border {
+            border: 1px solid transparent;
+            background: linear-gradient(#1e293b, #1e293b) padding-box,
+                        linear-gradient(to right, #22c55e, #3b82f6) border-box;
+        }
+
+        /* Certificate Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #certificate-canvas, #certificate-container * {
+                visibility: visible;
+            }
+            #certificate-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+
+        /* Markdown Styles within AI Box */
+        .prose strong { color: #4ade80; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; }
+        .prose li { margin-bottom: 0.25rem; }
+        .prose p { margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="border-b border-slate-700 bg-slate-900/90 sticky top-0 z-50 backdrop-blur">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-microchip text-green-500 text-2xl"></i>
+                <div class="flex flex-col">
+                    <span class="font-bold text-xl tracking-tight leading-none">Binary<span class="text-green-500">Master</span></span>
+                    <span class="text-[10px] text-blue-400 font-mono tracking-widest">POWERED BY GEMINI</span>
+                </div>
+            </div>
+            <div class="hidden md:flex gap-6 text-sm font-medium text-slate-400">
+                <a href="#teoria" class="hover:text-green-400 transition">Teoria</a>
+                <a href="#laboratorium" class="hover:text-green-400 transition">Laboratorium</a>
+                <a href="#arytmetyka" class="hover:text-green-400 transition">Arytmetyka</a>
+                <a href="#quiz" class="hover:text-green-400 transition">Egzamin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden py-20 px-4">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiMzMzQxNTUiLz48L3N2Zz4=')] opacity-20"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="inline-block px-4 py-1 rounded-full bg-green-900/30 border border-green-500/30 text-green-400 text-sm font-mono mb-6">
+                01001000 01100101 01101100 01101100 01101111
+            </div>
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+                Zrozum językiem <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">komputerów</span>
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+                Interaktywny kurs systemu dwójkowego wspomagany sztuczną inteligencją. Poznaj bity, dodawanie binarne i zdobądź certyfikat.
+            </p>
+            <a href="#start" class="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-8 rounded-lg transition shadow-lg shadow-green-500/20 inline-flex items-center gap-2">
+                Rozpocznij Kurs <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 w-full space-y-24 pb-20" id="start">
+
+        <!-- 1. Theory Section -->
+        <section id="teoria" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-green-500 text-xl font-bold border border-slate-700">1</div>
+                <h2 class="text-3xl font-bold">Podstawy Systemu Binarnego</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-green-400 mb-4"><i class="fa-solid fa-lightbulb mr-2"></i>Co to jest?</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        Ludzie używają systemu <strong>dziesiętnego</strong> (0-9), ponieważ mamy 10 palców. Komputery używają systemu <strong>binarnego</strong> (0-1), ponieważ działają na prądzie.
+                    </p>
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span><strong>1 (ON)</strong> - prąd płynie (prawda)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-slate-500 rounded-full"></span>
+                            <span><strong>0 (OFF)</strong> - brak prądu (fałsz)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-green-400 mb-4"><i class="fa-solid fa-calculator mr-2"></i>Jak liczyć?</h3>
+                    <p class="text-slate-300 mb-4">
+                        W systemie dziesiętnym pozycje to: jedności, dziesiątki, setki ($10^0, 10^1, 10^2$).
+                        W systemie binarnym pozycje to kolejne potęgi liczby 2:
+                    </p>
+                    <div class="grid grid-cols-4 gap-2 text-center font-mono text-sm">
+                        <div class="bg-slate-800 p-2 rounded border border-slate-700">
+                            <div class="text-slate-500 text-xs">Poz 4</div>
+                            <div class="text-green-400 font-bold">8</div>
+                            <div class="text-slate-600 text-xs">($2^3$)</div>
+                        </div>
+                        <div class="bg-slate-800 p-2 rounded border border-slate-700">
+                            <div class="text-slate-500 text-xs">Poz 3</div>
+                            <div class="text-green-400 font-bold">4</div>
+                            <div class="text-slate-600 text-xs">($2^2$)</div>
+                        </div>
+                        <div class="bg-slate-800 p-2 rounded border border-slate-700">
+                            <div class="text-slate-500 text-xs">Poz 2</div>
+                            <div class="text-green-400 font-bold">2</div>
+                            <div class="text-slate-600 text-xs">($2^1$)</div>
+                        </div>
+                        <div class="bg-slate-800 p-2 rounded border border-slate-700">
+                            <div class="text-slate-500 text-xs">Poz 1</div>
+                            <div class="text-green-400 font-bold">1</div>
+                            <div class="text-slate-600 text-xs">($2^0$)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Interactive Lab -->
+        <section id="laboratorium" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-green-500 text-xl font-bold border border-slate-700">2</div>
+                <h2 class="text-3xl font-bold">Laboratorium Bitów</h2>
+            </div>
+            
+            <div class="glass-panel rounded-2xl p-8 border border-green-500/20 shadow-[0_0_50px_rgba(34,197,94,0.1)] relative">
+                <p class="text-center text-slate-400 mb-8">Kliknij w kafelki poniżej, aby przełączać bity i zobaczyć wynik.</p>
+                
+                <!-- Bit Switches -->
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-10" id="bit-container">
+                    <!-- Generating via JS -->
+                </div>
+
+                <!-- Result Display -->
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+                    <div class="text-center">
+                        <div class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">Binarnie</div>
+                        <div id="binary-result" class="font-mono text-4xl md:text-5xl text-green-400 tracking-widest glow-text">00000000</div>
+                    </div>
+                    <div class="text-2xl text-slate-600"><i class="fa-solid fa-equals"></i></div>
+                    <div class="text-center">
+                        <div class="text-slate-500 text-sm mb-1 uppercase tracking-wider font-semibold">Dziesiętnie</div>
+                        <div id="decimal-result" class="font-mono text-4xl md:text-5xl text-white font-bold">0</div>
+                    </div>
+                </div>
+
+                <!-- AI Explainer Button & Output -->
+                <div class="flex flex-col items-center mb-8">
+                    <button onclick="explainNumberWithAI()" class="group relative px-6 py-2 rounded-full bg-slate-800 border border-blue-500/50 hover:bg-slate-700 transition flex items-center gap-2 text-blue-300 text-sm font-semibold">
+                        <i class="fa-solid fa-wand-magic-sparkles group-hover:animate-pulse"></i> ✨ Wyjaśnij tę liczbę (AI)
+                    </button>
+                    
+                    <div id="ai-explanation-box" class="hidden mt-4 w-full max-w-2xl bg-slate-900/80 rounded-xl p-4 border border-blue-500/30">
+                        <div class="flex items-center gap-2 mb-2 pb-2 border-b border-slate-700">
+                            <i class="fa-brands fa-google text-blue-400"></i>
+                            <span class="text-xs font-bold text-slate-400">GEMINI ANALYSIS</span>
+                            <button onclick="closeExplanation()" class="ml-auto text-slate-500 hover:text-white"><i class="fa-solid fa-times"></i></button>
+                        </div>
+                        <div id="ai-explanation-content" class="text-sm text-slate-300 prose prose-invert max-w-none">
+                            <div class="animate-pulse flex space-x-4">
+                                <div class="flex-1 space-y-2 py-1">
+                                    <div class="h-2 bg-slate-700 rounded"></div>
+                                    <div class="h-2 bg-slate-700 rounded w-5/6"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Calculator -->
+                <div class="pt-8 border-t border-slate-700">
+                    <h4 class="text-lg font-bold mb-4 text-center">Szybki Konwerter</h4>
+                    <div class="flex flex-col md:flex-row gap-4 justify-center">
+                        <div class="flex-1">
+                            <label class="text-xs text-slate-400 block mb-1">Dziesiętna (DEC)</label>
+                            <input type="number" id="input-dec" placeholder="np. 255" class="w-full bg-slate-900 border border-slate-600 rounded p-3 text-white font-mono focus:border-green-500 focus:outline-none transition">
+                        </div>
+                        <div class="flex-1">
+                            <label class="text-xs text-slate-400 block mb-1">Binarna (BIN)</label>
+                            <input type="text" id="input-bin" placeholder="np. 11111111" class="w-full bg-slate-900 border border-slate-600 rounded p-3 text-white font-mono focus:border-green-500 focus:outline-none transition">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Arithmetic Section (New) -->
+        <section id="arytmetyka" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-green-500 text-xl font-bold border border-slate-700">3</div>
+                <h2 class="text-3xl font-bold">Arytmetyka Binarna</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <!-- Addition Rules -->
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-blue-400 mb-4"><i class="fa-solid fa-plus mr-2"></i>Dodawanie</h3>
+                    <p class="text-slate-400 text-sm mb-4">Działa jak pisemne dodawanie. Pamiętaj o przeniesieniu (1)!</p>
+                    <div class="bg-slate-900 p-4 rounded-lg font-mono text-sm space-y-2 border border-slate-700">
+                        <div class="flex justify-between border-b border-slate-700 pb-1"><span>0 + 0</span> <span class="text-green-400">= 0</span></div>
+                        <div class="flex justify-between border-b border-slate-700 pb-1"><span>0 + 1</span> <span class="text-green-400">= 1</span></div>
+                        <div class="flex justify-between border-b border-slate-700 pb-1"><span>1 + 0</span> <span class="text-green-400">= 1</span></div>
+                        <div class="flex justify-between"><span>1 + 1</span> <span class="text-green-400">= 10</span> <span class="text-slate-500 text-xs">(0 i 1 dalej)</span></div>
+                    </div>
+                </div>
+
+                <!-- Subtraction Rules -->
+                <div class="glass-panel p-6 rounded-2xl">
+                    <h3 class="text-xl font-bold text-red-400 mb-4"><i class="fa-solid fa-minus mr-2"></i>Odejmowanie</h3>
+                    <p class="text-slate-400 text-sm mb-4">Jeśli odejmujesz 1 od 0, musisz "pożyczyć" z wyższej pozycji.</p>
+                    <div class="bg-slate-900 p-4 rounded-lg font-mono text-sm space-y-2 border border-slate-700">
+                        <div class="flex justify-between border-b border-slate-700 pb-1"><span>0 - 0</span> <span class="text-green-400">= 0</span></div>
+                        <div class="flex justify-between border-b border-slate-700 pb-1"><span>1 - 0</span> <span class="text-green-400">= 1</span></div>
+                        <div class="flex justify-between border-b border-slate-700 pb-1"><span>1 - 1</span> <span class="text-green-400">= 0</span></div>
+                        <div class="flex justify-between"><span>10 - 1</span> <span class="text-green-400">= 1</span> <span class="text-slate-500 text-xs">(pożyczka)</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arithmetic Trainer -->
+            <div class="glass-panel p-8 rounded-2xl text-center border border-blue-500/20">
+                <h4 class="text-xl font-bold mb-2">Trening Arytmetyczny</h4>
+                <p class="text-slate-400 mb-6 text-sm">Oblicz wynik działania w systemie binarnym.</p>
+
+                <div class="inline-flex items-center justify-center gap-4 text-3xl md:text-5xl font-mono bg-slate-900 px-8 py-6 rounded-xl border border-slate-700 mb-8 w-full max-w-lg mx-auto">
+                    <span id="math-q-a" class="text-green-400">101</span>
+                    <span id="math-op" class="text-slate-500">+</span>
+                    <span id="math-q-b" class="text-green-400">010</span>
+                </div>
+
+                <div class="max-w-xs mx-auto space-y-4">
+                    <input type="text" id="math-answer" placeholder="Wynik binarny (np. 111)" class="w-full bg-slate-800 border-2 border-slate-600 rounded-lg p-3 text-center text-white font-mono text-xl focus:border-green-500 focus:outline-none transition">
+                    <button onclick="checkMathAnswer()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition shadow-lg shadow-blue-500/20">
+                        Sprawdź Wynik
+                    </button>
+                    <div id="math-feedback" class="h-6 text-sm font-bold"></div>
+                </div>
+                <div class="mt-4">
+                    <button onclick="generateMathProblem()" class="text-slate-500 text-xs hover:text-white underline">Pomiń / Nowe zadanie</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Quiz Section (Renumbered) -->
+        <section id="quiz" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-green-500 text-xl font-bold border border-slate-700">4</div>
+                <h2 class="text-3xl font-bold">Egzamin Końcowy</h2>
+            </div>
+
+            <div id="quiz-container" class="glass-panel p-8 rounded-2xl relative overflow-hidden ai-border">
+                <!-- Start Screen -->
+                <div id="quiz-start" class="text-center py-10">
+                    <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl text-green-400">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Gotowy na test?</h3>
+                    <p class="text-slate-400 mb-8">Egzamin obejmuje teorię, konwersję oraz arytmetykę.</p>
+                    
+                    <div class="flex flex-col md:flex-row gap-4 justify-center">
+                        <button onclick="startQuiz('standard')" class="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-8 rounded-lg transition transform hover:scale-105 shadow-lg shadow-green-500/20">
+                            Standardowy (6 pytań)
+                        </button>
+                        <button onclick="startQuiz('ai')" class="relative bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-lg transition transform hover:scale-105 border border-blue-500/30 overflow-hidden group">
+                            <span class="relative z-10 flex items-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-blue-400"></i> ✨ Generuj Pytania AI
+                            </span>
+                            <div class="absolute inset-0 bg-blue-500/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                        </button>
+                    </div>
+                    <p id="ai-loading-text" class="hidden mt-4 text-blue-400 text-sm animate-pulse">Gemini układa dla Ciebie unikalne pytania z arytmetyką...</p>
+                </div>
+
+                <!-- Question Screen -->
+                <div id="quiz-question" class="hidden max-w-2xl mx-auto">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-slate-400 text-sm">Pytanie <span id="current-q-num">1</span>/6</span>
+                        <div class="h-2 w-32 bg-slate-800 rounded-full overflow-hidden">
+                            <div id="progress-bar" class="h-full bg-green-500 w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+                    <h3 id="question-text" class="text-xl md:text-2xl font-bold mb-8 min-h-[5rem] flex items-center">
+                        Pytanie pojawi się tutaj...
+                    </h3>
+                    <div id="answers-grid" class="grid gap-4">
+                        <!-- Answers injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Result Screen -->
+                <div id="quiz-result" class="hidden text-center py-10">
+                    <div id="result-icon" class="text-6xl mb-6"></div>
+                    <h3 id="result-title" class="text-3xl font-bold mb-2"></h3>
+                    <p id="result-msg" class="text-slate-400 mb-8 text-lg"></p>
+                    
+                    <div id="certificate-unlock" class="hidden animate-fade-in-up">
+                        <div class="bg-slate-800/50 p-6 rounded-xl border border-green-500/30 mb-8 max-w-md mx-auto">
+                            <h4 class="text-green-400 font-bold mb-4 uppercase text-sm tracking-wide">Generowanie Certyfikatu</h4>
+                            <input type="text" id="user-name" placeholder="Twoje Imię i Nazwisko" class="w-full bg-slate-900 border border-slate-600 rounded p-3 text-center text-white mb-4 focus:border-green-500 focus:outline-none">
+                            <button onclick="generateCertificate()" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-file-certificate"></i> Odbierz Certyfikat
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="retry-btn" onclick="resetQuiz()" class="hidden text-slate-400 hover:text-white underline underline-offset-4">
+                        Wróć do menu głównego
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificate Display Area -->
+        <section id="cert-section" class="hidden flex flex-col items-center">
+            <h2 class="text-2xl font-bold mb-6 text-green-400">Twój Certyfikat</h2>
+            <div class="relative group shadow-2xl shadow-green-900/50">
+                <canvas id="certificate-canvas" width="800" height="600" class="max-w-full h-auto rounded-lg border-4 border-slate-800"></canvas>
+                <div class="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-lg">
+                    <button onclick="downloadCertificate()" class="bg-white text-black font-bold py-3 px-6 rounded-full hover:scale-110 transition">
+                        <i class="fa-solid fa-download mr-2"></i> Pobierz PNG
+                    </button>
+                </div>
+            </div>
+            <p class="mt-4 text-slate-500 text-sm">Kliknij prawym przyciskiem myszy lub najedź na certyfikat, aby pobrać.</p>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800 py-8 bg-slate-900 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>&copy; 2024 BinaryMaster. Wygenerowano dla celów edukacyjnych.</p>
+        </div>
+    </footer>
+
+    <script>
+        const apiKey = ""; // API key injection handled by environment
+
+        // --- 1. Bit Laboratory Logic ---
+        const bits = [128, 64, 32, 16, 8, 4, 2, 1];
+        let currentDecimal = 0;
+
+        const bitContainer = document.getElementById('bit-container');
+        
+        // Initialize bits
+        bits.forEach((value, index) => {
+            const btn = document.createElement('button');
+            btn.className = `bit-box w-16 h-24 md:w-20 md:h-28 rounded-lg border-2 flex flex-col items-center justify-between py-2 md:py-4 bit-off select-none`;
+            btn.id = `bit-${index}`;
+            btn.onclick = () => toggleBit(index);
+            
+            btn.innerHTML = `
+                <span class="text-xs md:text-sm opacity-75 font-mono">${value}</span>
+                <span class="text-2xl md:text-3xl font-bold font-mono" id="val-${index}">0</span>
+                <span class="text-[10px] md:text-xs opacity-50">2<sup>${7-index}</sup></span>
+            `;
+            
+            bitContainer.appendChild(btn);
+        });
+
+        function toggleBit(index) {
+            const btn = document.getElementById(`bit-${index}`);
+            const valSpan = document.getElementById(`val-${index}`);
+            const isOne = valSpan.innerText === '1';
+            const bitValue = bits[index];
+
+            if (isOne) {
+                // Turn OFF
+                valSpan.innerText = '0';
+                btn.classList.remove('bit-on');
+                btn.classList.add('bit-off');
+                currentDecimal -= bitValue;
+            } else {
+                // Turn ON
+                valSpan.innerText = '1';
+                btn.classList.remove('bit-off');
+                btn.classList.add('bit-on');
+                currentDecimal += bitValue;
+            }
+
+            updateDisplays();
+            document.getElementById('ai-explanation-box').classList.add('hidden');
+        }
+
+        function updateDisplays() {
+            document.getElementById('decimal-result').innerText = currentDecimal;
+            document.getElementById('binary-result').innerText = currentDecimal.toString(2).padStart(8, '0');
+        }
+
+        // --- 2. Calculator Logic ---
+        const inputDec = document.getElementById('input-dec');
+        const inputBin = document.getElementById('input-bin');
+
+        inputDec.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            if (!isNaN(val)) {
+                inputBin.value = val.toString(2);
+                currentDecimal = val <= 255 ? val : currentDecimal; 
+                if(val <= 255) updateVisualBitsFromDecimal(val);
+            } else {
+                inputBin.value = '';
+            }
+        });
+
+        inputBin.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^01]/g, '');
+            const val = e.target.value;
+            if (val) {
+                const dec = parseInt(val, 2);
+                inputDec.value = dec;
+                currentDecimal = dec <= 255 ? dec : currentDecimal;
+                if(dec <= 255) updateVisualBitsFromDecimal(dec);
+            } else {
+                inputDec.value = '';
+            }
+        });
+
+        function updateVisualBitsFromDecimal(dec) {
+            for (let i = 0; i < 8; i++) {
+                const bitVal = bits[i];
+                const btn = document.getElementById(`bit-${i}`);
+                const valSpan = document.getElementById(`val-${i}`);
+                if ((dec & bitVal) === bitVal) {
+                    dec -= bitVal;
+                    valSpan.innerText = '1';
+                    btn.classList.remove('bit-off');
+                    btn.classList.add('bit-on');
+                } else {
+                    valSpan.innerText = '0';
+                    btn.classList.remove('bit-on');
+                    btn.classList.add('bit-off');
+                }
+            }
+            updateDisplays();
+        }
+
+        // --- 3. Arithmetic Trainer Logic ---
+        let currentMathTarget = 0;
+        
+        function generateMathProblem() {
+            // Reset UI
+            document.getElementById('math-feedback').innerText = "";
+            document.getElementById('math-feedback').className = "h-6 text-sm font-bold";
+            document.getElementById('math-answer').value = "";
+
+            const isAddition = Math.random() > 0.5;
+            const opSpan = document.getElementById('math-op');
+            
+            let a, b;
+            
+            if (isAddition) {
+                opSpan.innerText = "+";
+                a = Math.floor(Math.random() * 15) + 1; // 1-15
+                b = Math.floor(Math.random() * 15) + 1;
+                currentMathTarget = a + b;
+            } else {
+                opSpan.innerText = "-";
+                a = Math.floor(Math.random() * 15) + 8; // Make sure a > b usually
+                b = Math.floor(Math.random() * 7) + 1;
+                if(b > a) { let temp = a; a = b; b = temp; }
+                currentMathTarget = a - b;
+            }
+
+            document.getElementById('math-q-a').innerText = a.toString(2);
+            document.getElementById('math-q-b').innerText = b.toString(2);
+        }
+
+        function checkMathAnswer() {
+            const input = document.getElementById('math-answer').value.replace(/[^01]/g, '');
+            const feedback = document.getElementById('math-feedback');
+            
+            if (!input) {
+                feedback.innerText = "Wpisz wynik!";
+                feedback.className = "h-6 text-sm font-bold text-yellow-500";
+                return;
+            }
+
+            const userVal = parseInt(input, 2);
+            if (userVal === currentMathTarget) {
+                feedback.innerText = "DOBRZE! 🎉";
+                feedback.className = "h-6 text-sm font-bold text-green-400";
+                setTimeout(generateMathProblem, 1500);
+            } else {
+                feedback.innerText = "ŹLE. Spróbuj ponownie.";
+                feedback.className = "h-6 text-sm font-bold text-red-400";
+            }
+        }
+        
+        // Initial problem
+        generateMathProblem();
+
+
+        // --- 4. Gemini API Integration ---
+
+        async function callGemini(prompt, isJson = false) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            
+            let systemInstruction = "Jesteś pomocnym asystentem edukacyjnym specjalizującym się w informatyce.";
+            if (isJson) {
+                systemInstruction += " Odpowiadaj TYLKO w czystym formacie JSON bez znaczników markdown.";
+            }
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                
+                const data = await response.json();
+                let text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Błąd generowania odpowiedzi.";
+                
+                if (isJson) {
+                    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+                    return JSON.parse(text);
+                }
+                
+                return text;
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return null;
+            }
+        }
+
+        async function explainNumberWithAI() {
+            const box = document.getElementById('ai-explanation-box');
+            const content = document.getElementById('ai-explanation-content');
+            
+            box.classList.remove('hidden');
+            content.innerHTML = `<div class="animate-pulse flex space-x-4"><div class="flex-1 space-y-2 py-1"><div class="h-2 bg-slate-700 rounded"></div><div class="h-2 bg-slate-700 rounded w-5/6"></div></div></div>`;
+
+            const bin = currentDecimal.toString(2).padStart(8, '0');
+            const prompt = `Jesteś nauczycielem informatyki dla początkujących. 
+            Liczba dziesiętna: ${currentDecimal}.
+            Liczba binarna (8-bit): ${bin}.
+            Wytłumacz krótko (maksymalnie 3-4 zdania i wypunktowanie), jak przeliczyć ${currentDecimal} na system binarny, pokazując które potęgi liczby 2 się sumują. 
+            Użyj formatowania markdown (pogrubienia) dla liczb.`;
+
+            const explanation = await callGemini(prompt);
+            
+            if (explanation) {
+                content.innerHTML = marked.parse(explanation);
+            } else {
+                content.innerHTML = "<span class='text-red-400'>Przepraszamy, asystent AI jest chwilowo niedostępny. Spróbuj później.</span>";
+            }
+        }
+
+        function closeExplanation() {
+            document.getElementById('ai-explanation-box').classList.add('hidden');
+        }
+
+        async function generateAIQuestions() {
+            const prompt = `Wygeneruj 6 pytań testowych jednokrotnego wyboru na temat systemu binarnego, w tym bitów, bajtów ORAZ dodawania i odejmowania binarnego.
+            Przynajmniej 2 pytania muszą dotyczyć arytmetyki binarnej (np. "Ile to 10 + 10?").
+            Format JSON: Array obiektów. Każdy obiekt ma klucze:
+            "q": (string) treść pytania,
+            "options": (array stringów) 4 możliwe odpowiedzi,
+            "correct": (int) indeks poprawnej odpowiedzi (0-3).
+            Odpowiedzi w języku polskim.`;
+
+            return await callGemini(prompt, true);
+        }
+
+        // --- 5. Quiz Logic ---
+        const defaultQuestions = [
+            {
+                q: "Jaka jest wartość dziesiętna liczby binarnej 101?",
+                options: ["3", "5", "6", "101"],
+                correct: 1 // 5
+            },
+            {
+                q: "Ile różnych wartości można zapisać na 1 bajcie (8 bitach)?",
+                options: ["8", "100", "255", "256"],
+                correct: 3 // 256
+            },
+            {
+                q: "Wynik dodawania binarnie: 1 + 1 to:",
+                options: ["2", "11", "10", "0"],
+                correct: 2 // 10
+            },
+            {
+                q: "Wynik odejmowania binarnie: 10 - 1 to:",
+                options: ["0", "1", "11", "9"],
+                correct: 1 // 1
+            },
+            {
+                q: "Podstawa systemu binarnego to:",
+                options: ["1", "2", "10", "16"],
+                correct: 1
+            },
+            {
+                q: "Jak zapisać liczbę 3 w systemie binarnym?",
+                options: ["01", "10", "11", "100"],
+                correct: 2
+            }
+        ];
+
+        let activeQuestions = [];
+        let currentQIndex = 0;
+        let score = 0;
+
+        async function startQuiz(mode) {
+            const startDiv = document.getElementById('quiz-start');
+            const loadingText = document.getElementById('ai-loading-text');
+
+            if (mode === 'ai') {
+                loadingText.classList.remove('hidden');
+                const aiQuestions = await generateAIQuestions();
+                loadingText.classList.add('hidden');
+                
+                if (aiQuestions && Array.isArray(aiQuestions) && aiQuestions.length > 0) {
+                    activeQuestions = aiQuestions;
+                } else {
+                    alert("Nie udało się wygenerować pytań AI. Uruchamiam tryb standardowy.");
+                    activeQuestions = [...defaultQuestions];
+                }
+            } else {
+                activeQuestions = [...defaultQuestions];
+            }
+
+            score = 0;
+            currentQIndex = 0;
+            startDiv.classList.add('hidden');
+            document.getElementById('quiz-question').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = activeQuestions[currentQIndex];
+            document.getElementById('current-q-num').innerText = currentQIndex + 1;
+            document.getElementById('progress-bar').style.width = `${((currentQIndex) / activeQuestions.length) * 100}%`;
+            document.getElementById('question-text').innerText = q.q;
+
+            const grid = document.getElementById('answers-grid');
+            grid.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 hover:border-green-500 transition text-slate-200 font-medium";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                grid.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const correctIndex = activeQuestions[currentQIndex].correct;
+            
+            if (selectedIndex === correctIndex) {
+                score++;
+            }
+
+            currentQIndex++;
+
+            if (currentQIndex < activeQuestions.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('quiz-question').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            
+            const requiredScore = Math.ceil(activeQuestions.length * 0.7); // 70% to pass
+            const passed = score >= requiredScore;
+            
+            const title = document.getElementById('result-title');
+            const msg = document.getElementById('result-msg');
+            const icon = document.getElementById('result-icon');
+
+            if (passed) {
+                icon.innerHTML = '🎉';
+                title.innerText = "Gratulacje! Zdane!";
+                title.className = "text-3xl font-bold mb-2 text-green-400";
+                msg.innerText = `Twój wynik to ${score}/${activeQuestions.length}. Opanowałeś teorię i arytmetykę!`;
+                document.getElementById('certificate-unlock').classList.remove('hidden');
+                document.getElementById('retry-btn').classList.add('hidden');
+            } else {
+                icon.innerHTML = '😕';
+                title.innerText = "Jeszcze trochę nauki...";
+                title.className = "text-3xl font-bold mb-2 text-red-400";
+                msg.innerText = `Twój wynik to ${score}/${activeQuestions.length}. Wymagane ${requiredScore} pkt, aby uzyskać certyfikat.`;
+                document.getElementById('certificate-unlock').classList.add('hidden');
+                document.getElementById('retry-btn').classList.remove('hidden');
+            }
+        }
+
+        function resetQuiz() {
+            score = 0;
+            currentQIndex = 0;
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-start').classList.remove('hidden');
+        }
+
+        // --- 6. Certificate Generator ---
+        function generateCertificate() {
+            const name = document.getElementById('user-name').value;
+            if (!name.trim()) {
+                alert("Proszę wpisać imię!");
+                return;
+            }
+
+            document.getElementById('cert-section').classList.remove('hidden');
+            
+            const canvas = document.getElementById('certificate-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Draw Background
+            ctx.fillStyle = "#1e293b"; // Slate-900
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Border
+            ctx.strokeStyle = "#22c55e"; // Green-500
+            ctx.lineWidth = 10;
+            ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+            
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(35, 35, canvas.width - 70, canvas.height - 70);
+
+            // Decorative Binary Background
+            ctx.fillStyle = "rgba(34, 197, 94, 0.05)";
+            ctx.font = "20px monospace";
+            for(let i=0; i<30; i++) {
+                ctx.fillText("010101 001 1010", Math.random()*800, Math.random()*600);
+            }
+
+            // Header
+            ctx.fillStyle = "#4ade80"; // Green-400
+            ctx.font = "bold 50px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("CERTYFIKAT", canvas.width / 2, 120);
+            
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "30px Arial";
+            ctx.fillText("UKOŃCZENIA KURSU", canvas.width / 2, 170);
+
+            // Course Name
+            ctx.fillStyle = "#e2e8f0";
+            ctx.font = "italic 25px Arial";
+            ctx.fillText("Przyznano dla:", canvas.width / 2, 250);
+
+            // User Name
+            ctx.fillStyle = "#22c55e";
+            ctx.font = "bold 60px 'Courier New'";
+            ctx.shadowColor = "rgba(34, 197, 94, 0.5)";
+            ctx.shadowBlur = 15;
+            ctx.fillText(name, canvas.width / 2, 330);
+            ctx.shadowBlur = 0;
+
+            // Details
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "24px Arial";
+            ctx.fillText("Za opanowanie podstaw", canvas.width / 2, 400);
+            ctx.fillText("SYSTEMU BINARNEGO I ARYTMETYKI", canvas.width / 2, 435);
+
+            // Date & ID
+            const date = new Date().toLocaleDateString('pl-PL');
+            const id = Math.floor(Math.random() * 1000000).toString(16).toUpperCase();
+            
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "16px monospace";
+            ctx.fillText(`Data: ${date}`, 150, 530);
+            ctx.fillText(`ID: ${id}`, 650, 530);
+
+            // Scroll to cert
+            document.getElementById('cert-section').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function downloadCertificate() {
+            const canvas = document.getElementById('certificate-canvas');
+            const link = document.createElement('a');
+            link.download = 'Certyfikat-Binarny.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
